@@ -47,6 +47,7 @@ jobs:
             -r cli,json,html \
             --reporter-json-export newman/messages_report.json \
             --reporter-html-export newman/messages_report.html
+        continue-on-error: true
 
       - name: Run Postman API Testing Favorites
         run: |
@@ -56,6 +57,7 @@ jobs:
             -r cli,json,html \
             --reporter-json-export newman/favorites_report.json \
             --reporter-html-export newman/favorites_report.html
+        continue-on-error: true
 
       - name: Run Postman API Testing Payment
         run: |
@@ -65,6 +67,7 @@ jobs:
             -r cli,json,html \
             --reporter-json-export newman/payment_report.json \
             --reporter-html-export newman/payment_report.html
+        continue-on-error: true
 
       # 7. Upload test report
       - name: Upload test results

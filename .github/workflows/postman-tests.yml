@@ -34,15 +34,22 @@ jobs:
         env:
           SPRINT_FOLDER: sprint5-with-bugs
 
-      # 5. Wait until backend is ready
-      - name: Install PHP dependencies
-        run: |
-          docker compose exec -T laravel-api composer install --no-interaction --no-progress --no-suggest
+      # 5. Wait for backend container
+      - name: Check containers
+        run: docker compose ps
 
       - name: Wait for backend
         run: npx wait-on http://localhost:8091
 
-      # 6. Run Postman collections
+      # 6. Install PHP dependencies inside container
+      - name: Install PHP dependencies
+        run: docker compose exec -T laravel-api composer install --no-interaction --no-progress --no-suggest
+
+      # 7. Create Newman folder
+      - name: Create Newman report folder
+        run: mkdir -p newman
+
+      # 8. Run Postman collections
       - name: Run Postman API Testing Messages
         run: |
           newman run postman/API_Testing_Messages.json \
@@ -51,7 +58,6 @@ jobs:
             -r cli,json,html \
             --reporter-json-export newman/messages_report.json \
             --reporter-html-export newman/messages_report.html
-        continue-on-error: true
 
       - name: Run Postman API Testing Favorites
         run: |
@@ -61,7 +67,6 @@ jobs:
             -r cli,json,html \
             --reporter-json-export newman/favorites_report.json \
             --reporter-html-export newman/favorites_report.html
-        continue-on-error: true
 
       - name: Run Postman API Testing Payment
         run: |
@@ -71,9 +76,8 @@ jobs:
             -r cli,json,html \
             --reporter-json-export newman/payment_report.json \
             --reporter-html-export newman/payment_report.html
-        continue-on-error: true
 
-      # 7. Upload test report
+      # 9. Upload test report
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:

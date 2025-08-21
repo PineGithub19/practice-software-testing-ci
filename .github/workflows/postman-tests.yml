@@ -45,8 +45,8 @@ jobs:
       - name: Install PHP dependencies
         run: |
           docker run --rm \
-            -v $(pwd)/sprint5-with-bugs:/app \
-            composer install --no-interaction --no-progress --no-suggest
+            -v $(pwd)/sprint5-with-bugs/API:/app \
+            composer install --no-interaction --no-progress
 
       # 7. Create Newman folder
       - name: Create Newman report folder

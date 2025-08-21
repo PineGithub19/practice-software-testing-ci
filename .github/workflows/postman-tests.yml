@@ -121,9 +121,8 @@ jobs:
         env:
           SPRINT_FOLDER: sprint5-with-bugs
 
-      - name: Install Composer dependencies in Laravel container
-        run: |
-          docker compose exec -T laravel-api composer install --no-interaction --no-progress --no-suggest
+      - name: Install Composer dependencies
+        run: docker run --rm -v ${{ github.workspace }}/sprint5-with-bugs/API:/app composer install --no-interaction --no-progress --no-suggest
         env:
           SPRINT_FOLDER: sprint5-with-bugs
 

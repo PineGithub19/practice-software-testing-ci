@@ -144,22 +144,22 @@ jobs:
 
       - name: Run Postman Collection - Messages
         run: |
-          postman collection run "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_Messages.json" \
-            --environment "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_env.json" \
+          newman run "${{ github.workspace }}/postman/API_Testing_Messages.json" \
+            --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --reporters cli,html \
             --reporter-html-export "${{ github.workspace }}/newman/messages_report.html"
 
       - name: Run Postman Collection - Favorites
         run: |
-          postman collection run "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_Favorites.json" \
-            --environment "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_env.json" \
+          newman run "${{ github.workspace }}/postman/API_Testing_Favorites.json" \
+            --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --reporters cli,html \
             --reporter-html-export "${{ github.workspace }}/newman/favorites_report.html"
 
       - name: Run Postman Collection - Payment
         run: |
-          postman collection run "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_Payment.json" \
-            --environment "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_env.json" \
+          newman run "${{ github.workspace }}/postman/API_Testing_Payment.json" \
+            --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --reporters cli,html \
             --reporter-html-export "${{ github.workspace }}/newman/payment_report.html"
 

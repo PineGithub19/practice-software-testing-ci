@@ -1,0 +1,71 @@
+name: Postman API Tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx (cho Compose & Docker)
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build & Start services (Docker Compose)
+        run: |
+          docker compose -f docker-compose.yml up -d --build
+        env:
+          SPRINT_FOLDER: sprint5-with-bugs
+
+      - name: Install Composer dependencies in Laravel container
+        run: |
+          docker compose exec -T laravel-api composer install --no-interaction --no-progress --no-suggest
+        env:
+          SPRINT_FOLDER: sprint5-with-bugs
+
+      - name: Wait for backend to be ready
+        run: |
+          npx wait-on http://localhost:8091
+        env:
+          SPRINT_FOLDER: sprint5-with-bugs
+
+      - name: Install Node.js & Postman CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install Postman CLI
+        run: npm install -g @postman/cli
+
+      - name: Run Postman Collection - Messages
+        run: |
+          postman collection run "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_Messages.json" \
+            --environment "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_env.json" \
+            --reporters cli,html \
+            --reporter-html-export newman/messages_report.html
+
+      - name: Run Postman Collection - Favorites
+        run: |
+          postman collection run "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_Favorites.json" \
+            --environment "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_env.json" \
+            --reporters cli,html \
+            --reporter-html-export newman/favorites_report.html
+
+      - name: Run Postman Collection - Payment
+        run: |
+          postman collection run "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_Payment.json" \
+            --environment "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_env.json" \
+            --reporters cli,html \
+            --reporter-html-export newman/payment_report.html
+
+      - name: Upload test reports (HTML)
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-html-reports
+          path: newman/*.html

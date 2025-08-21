@@ -1,97 +1,169 @@
-name: Run Postman Tests
+# name: Run Postman Tests
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+
+# jobs:
+#   postman:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # 1. Checkout repository
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       # 2. Setup Node.js (for Newman)
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 18
+
+#       # 3. Install Newman + wait-on
+#       - name: Install Newman and wait-on
+#         run: npm install -g newman wait-on
+
+#       # 4. Create Newman report folder
+#       - name: Create Newman report folder
+#         run: mkdir -p newman
+
+#       # 5. Start backend with Docker Compose
+#       - name: Start backend with Docker
+#         run: docker compose -f docker-compose.yml up -d
+#         env:
+#           SPRINT: sprint5-with-bugs
+
+#       - name: Check containers status
+#         run: docker compose ps
+
+#       # 6. Wait for backend to be ready
+#       - name: Wait for backend service
+#         run: npx wait-on http://localhost:8091
+
+#       # 7. Run migrations and seed DB
+#       - name: Run database migrations and seed
+#         run: docker compose exec -T laravel-api php artisan migrate:fresh --seed
+
+#       # 8. Install PHP dependencies using official composer container
+#       - name: Install PHP dependencies (Composer)
+#         run: |
+#           docker run --rm \
+#             -v $(pwd)/sprint5-with-bugs/API:/app \
+#             composer install --no-interaction --no-progress
+
+#       # 9. Run Postman collections using Newman
+#       - name: Run Postman - Messages
+#         run: |
+#           newman run sprint5-with-bugs/API/postman/API_Testing_Messages.json \
+#             -e sprint5-with-bugs/API/postman/API_Testing_env.json \
+#             -d sprint5-with-bugs/API/test_data/d1.json \
+#             -r cli,json,html \
+#             --reporter-json-export newman/messages_report.json \
+#             --reporter-html-export newman/messages_report.html
+#         continue-on-error: true
+
+#       - name: Run Postman - Favorites
+#         run: |
+#           newman run sprint5-with-bugs/API/postman/API_Testing_Favorites.json \
+#             -e sprint5-with-bugs/API/postman/API_Testing_env.json \
+#             -d sprint5-with-bugs/API/test_data/d2.json \
+#             -r cli,json,html \
+#             --reporter-json-export newman/favorites_report.json \
+#             --reporter-html-export newman/favorites_report.html
+#         continue-on-error: true
+
+#       - name: Run Postman - Payment
+#         run: |
+#           newman run sprint5-with-bugs/API/postman/API_Testing_Payment.json \
+#             -e sprint5-with-bugs/API/postman/API_Testing_env.json \
+#             -d sprint5-with-bugs/API/test_data/d3.json \
+#             -r cli,json,html \
+#             --reporter-json-export newman/payment_report.json \
+#             --reporter-html-export newman/payment_report.html
+#         continue-on-error: true
+
+#       # 10. If any Newman test failed, show Laravel logs
+#       - name: Show Laravel logs (on failure)
+#         if: failure()
+#         run: docker compose logs laravel-api
+
+#       # 11. Upload test reports
+#       - name: Upload test results
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: postman-test-results
+#           path: newman/*.html
+
+name: Postman API Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   pull_request:
+    branches: ["main"]
 
 jobs:
-  postman:
+  api-tests:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      # 2. Setup Node.js (for Newman)
-      - name: Setup Node.js
+      - name: Set up Docker Buildx (cho Compose & Docker)
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build & Start services (Docker Compose)
+        run: |
+          docker compose -f docker-compose.yml up -d --build
+        env:
+          SPRINT_FOLDER: sprint5-with-bugs
+
+      - name: Install Composer dependencies in Laravel container
+        run: |
+          docker compose exec -T laravel-api composer install --no-interaction --no-progress --no-suggest
+        env:
+          SPRINT_FOLDER: sprint5-with-bugs
+
+      - name: Wait for backend to be ready
+        run: |
+          npx wait-on http://localhost:8091
+        env:
+          SPRINT_FOLDER: sprint5-with-bugs
+
+      - name: Install Node.js & Postman CLI
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "18"
 
-      # 3. Install Newman + wait-on
-      - name: Install Newman and wait-on
-        run: npm install -g newman wait-on
+      - name: Install Postman CLI
+        run: npm install -g @postman/cli
 
-      # 4. Create Newman report folder
-      - name: Create Newman report folder
-        run: mkdir -p newman
-
-      # 5. Start backend with Docker Compose
-      - name: Start backend with Docker
-        run: docker compose -f docker-compose.yml up -d
-        env:
-          SPRINT: sprint5-with-bugs
-
-      - name: Check containers status
-        run: docker compose ps
-
-      # 6. Wait for backend to be ready
-      - name: Wait for backend service
-        run: npx wait-on http://localhost:8091
-
-      # 7. Run migrations and seed DB
-      - name: Run database migrations and seed
-        run: docker compose exec -T laravel-api php artisan migrate:fresh --seed
-
-      # 8. Install PHP dependencies using official composer container
-      - name: Install PHP dependencies (Composer)
+      - name: Run Postman Collection - Messages
         run: |
-          docker run --rm \
-            -v $(pwd)/sprint5-with-bugs/API:/app \
-            composer install --no-interaction --no-progress
+          postman collection run "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_Messages.json" \
+            --environment "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_env.json" \
+            --reporters cli,html \
+            --reporter-html-export "${{ github.workspace }}/newman/messages_report.html"
 
-      # 9. Run Postman collections using Newman
-      - name: Run Postman - Messages
+      - name: Run Postman Collection - Favorites
         run: |
-          newman run sprint5-with-bugs/API/postman/API_Testing_Messages.json \
-            -e sprint5-with-bugs/API/postman/API_Testing_env.json \
-            -d sprint5-with-bugs/API/test_data/d1.json \
-            -r cli,json,html \
-            --reporter-json-export newman/messages_report.json \
-            --reporter-html-export newman/messages_report.html
-        continue-on-error: true
+          postman collection run "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_Favorites.json" \
+            --environment "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_env.json" \
+            --reporters cli,html \
+            --reporter-html-export "${{ github.workspace }}/newman/favorites_report.html"
 
-      - name: Run Postman - Favorites
+      - name: Run Postman Collection - Payment
         run: |
-          newman run sprint5-with-bugs/API/postman/API_Testing_Favorites.json \
-            -e sprint5-with-bugs/API/postman/API_Testing_env.json \
-            -d sprint5-with-bugs/API/test_data/d2.json \
-            -r cli,json,html \
-            --reporter-json-export newman/favorites_report.json \
-            --reporter-html-export newman/favorites_report.html
-        continue-on-error: true
+          postman collection run "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_Payment.json" \
+            --environment "${{ github.workspace }}/sprint5-with-bugs/API/postman/API_Testing_env.json" \
+            --reporters cli,html \
+            --reporter-html-export "${{ github.workspace }}/newman/payment_report.html"
 
-      - name: Run Postman - Payment
-        run: |
-          newman run sprint5-with-bugs/API/postman/API_Testing_Payment.json \
-            -e sprint5-with-bugs/API/postman/API_Testing_env.json \
-            -d sprint5-with-bugs/API/test_data/d3.json \
-            -r cli,json,html \
-            --reporter-json-export newman/payment_report.json \
-            --reporter-html-export newman/payment_report.html
-        continue-on-error: true
-
-      # 10. If any Newman test failed, show Laravel logs
-      - name: Show Laravel logs (on failure)
-        if: failure()
-        run: docker compose logs laravel-api
-
-      # 11. Upload test reports
-      - name: Upload test results
+      - name: Upload test reports (HTML)
         uses: actions/upload-artifact@v4
         with:
-          name: postman-test-results
+          name: postman-html-reports
           path: newman/*.html

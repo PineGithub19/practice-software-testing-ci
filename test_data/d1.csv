@@ -1,0 +1,32 @@
+name,email,subject,message,status
+"John Doe","john@doe.example","customer-service","I need help with my account settings and cannot access my profile information properly.",200
+"Jane Smith","jane@smith.example","webmaster","The website is loading very slowly and some images are not displaying correctly on the homepage.",200
+"Mike Johnson","mike@johnson.example","return","I would like to return my recent purchase as it does not meet my expectations and requirements.",200
+"Sarah Wilson","sarah@wilson.example","not-found","I cannot find the product I was looking for in your catalog. Could you help me locate it please?",200
+"David Brown","david@brown.example","payments","I am having issues with my payment processing and need assistance with my recent transaction.",200
+"Lisa Garcia","lisa@garcia.example","warranty","My product is still under warranty but has stopped working. I need information about repair options.",200
+"Robert Taylor","robert@taylor.example","status-of-order","I placed an order last week and would like to check the current status and delivery information.",200
+"Nguyễn Văn Anh","nguyen@van.example","customer-service","Tôi cần hỗ trợ về tài khoản của mình và không thể truy cập thông tin hồ sơ một cách chính xác.",200
+"AbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmn","test@example.com","customer-service","This is a test message with exactly fifty characters here to meet minimum length requirement for message validation.",200
+"Test User","test@example.com","customer-service","This is exactly fifty characters long message test",200
+"Test User","test@example.com","customer-service","This is a very long message that contains exactly two hundred and fifty characters to test the maximum boundary limit for message field validation in the API endpoint which should accept this length properly and return success",200
+"Test User","verylongemailaddressfortestingmaximumlengthboundaryvalidationintheapimessageendpointwhichshouldwork@example.com","customer-service","This is a test message to verify email length boundary validation works properly in the API.",200
+"","test@example.com","customer-service","This is a test message with empty name field to verify validation.",422
+"Test User","","customer-service","This is a test message with empty email field to verify validation.",422
+"Test User","test@example.com","","This is a test message with empty subject field to verify validation.",422
+"Test User","test@example.com","customer-service","",422
+"AbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopq","test@example.com","customer-service","This is a test message with name field exceeding maximum length limit.",422
+"Test User","verylongemailaddressfortestingmaximumlengthboundaryvalidationintheapimessageendpointwhichshouldnotwork@example.com","customer-service","This is a test message with email field exceeding maximum length limit.",422
+"Test User","test@example.com","customer-service","Short message",422
+"Test User","test@example.com","customer-service","This is a very long message that contains more than two hundred and fifty characters to test the maximum boundary limit for message field validation in the API endpoint which should reject this length and return error response for validation",422
+"Test User","test@example.com","customer-service","This is a test message with invalid email format to verify validation.",422
+"Test User","test#user$@example.com","customer-service","This is a test message with email containing invalid special characters.",422
+"123John Doe","test@example.com","customer-service","This is a test message with name starting with number to verify validation.",422
+"#John Doe","test@example.com","customer-service","This is a test message with name starting with special character.",422
+"  John Doe","test@example.com","customer-service","This is a test message with name having leading spaces to verify validation.",422
+"John Doe  ","test@example.com","customer-service","This is a test message with name having trailing spaces to verify validation.",422
+"Test User","test@example.com","invalid-subject","This is a test message with invalid subject value to verify validation.",422
+"Test User","test@example.com","customer-service","1234567890123456789012345678901234567890123456789012",422
+"","","","",422
+"Emily Johnson","emily.johnson@company.co.uk","warranty","My electric hammer purchased 6 months ago has developed a screen flickering issue and I would like to claim warranty service for repair or replacement.",200
+"Emily Johnson","emily.johnson@company.co.uk","warranty","My electric hammer purchased 6 months ago has developed a screen flickering issue and I would like to claim warranty service for repair or replacement.",200, "female"

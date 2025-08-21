@@ -1,0 +1,220 @@
+[
+  {
+    "name": "John Doe",
+    "email": "john@doe.example",
+    "subject": "customer-service",
+    "message": "I need help with my account settings and cannot access my profile information properly.",
+    "status": 200
+  },
+  {
+    "name": "Jane Smith",
+    "email": "jane@smith.example",
+    "subject": "webmaster",
+    "message": "The website is loading very slowly and some images are not displaying correctly on the homepage.",
+    "status": 200
+  },
+  {
+    "name": "Mike Johnson",
+    "email": "mike@johnson.example",
+    "subject": "return",
+    "message": "I would like to return my recent purchase as it does not meet my expectations and requirements.",
+    "status": 200
+  },
+  {
+    "name": "Sarah Wilson",
+    "email": "sarah@wilson.example",
+    "subject": "not-found",
+    "message": "I cannot find the product I was looking for in your catalog. Could you help me locate it please?",
+    "status": 200
+  },
+  {
+    "name": "David Brown",
+    "email": "david@brown.example",
+    "subject": "payments",
+    "message": "I am having issues with my payment processing and need assistance with my recent transaction.",
+    "status": 200
+  },
+  {
+    "name": "Lisa Garcia",
+    "email": "lisa@garcia.example",
+    "subject": "warranty",
+    "message": "My product is still under warranty but has stopped working. I need information about repair options.",
+    "status": 200
+  },
+  {
+    "name": "Robert Taylor",
+    "email": "robert@taylor.example",
+    "subject": "status-of-order",
+    "message": "I placed an order last week and would like to check the current status and delivery information.",
+    "status": 200
+  },
+  {
+    "name": "Nguyễn Văn Anh",
+    "email": "nguyen@van.example",
+    "subject": "customer-service",
+    "message": "Tôi cần hỗ trợ về tài khoản của mình và không thể truy cập thông tin hồ sơ một cách chính xác.",
+    "status": 200
+  },
+  {
+    "name": "AbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmn",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with exactly fifty characters here to meet minimum length requirement for message validation.",
+    "status": 200
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is exactly fifty characters long message test",
+    "status": 200
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a very long message that contains exactly two hundred and fifty characters to test the maximum boundary limit for message field validation in the API endpoint which should accept this length properly and return success",
+    "status": 200
+  },
+  {
+    "name": "Test User",
+    "email": "verylongemailaddressfortestingmaximumlengthboundaryvalidationintheapimessageendpointwhichshouldwork@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message to verify email length boundary validation works properly in the API.",
+    "status": 200
+  },
+  {
+    "name": "",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with empty name field to verify validation.",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "",
+    "subject": "customer-service",
+    "message": "This is a test message with empty email field to verify validation.",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "",
+    "message": "This is a test message with empty subject field to verify validation.",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "",
+    "status": 422
+  },
+  {
+    "name": "AbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopq",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with name field exceeding maximum length limit.",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "verylongemailaddressfortestingmaximumlengthboundaryvalidationintheapimessageendpointwhichshouldnotwork@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with email field exceeding maximum length limit.",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "Short message",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a very long message that contains more than two hundred and fifty characters to test the maximum boundary limit for message field validation in the API endpoint which should reject this length and return error response for validation",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with invalid email format to verify validation.",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "test#user$@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with email containing invalid special characters.",
+    "status": 422
+  },
+  {
+    "name": "123John Doe",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with name starting with number to verify validation.",
+    "status": 422
+  },
+  {
+    "name": "#John Doe",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with name starting with special character.",
+    "status": 422
+  },
+  {
+    "name": "  John Doe",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with name having leading spaces to verify validation.",
+    "status": 422
+  },
+  {
+    "name": "John Doe  ",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "This is a test message with name having trailing spaces to verify validation.",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "invalid-subject",
+    "message": "This is a test message with invalid subject value to verify validation.",
+    "status": 422
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "customer-service",
+    "message": "1234567890123456789012345678901234567890123456789012",
+    "status": 422
+  },
+  {
+    "name": "",
+    "email": "",
+    "subject": "",
+    "message": "",
+    "status": 422
+  },
+  {
+    "name": "Emily Johnson",
+    "email": "emily.johnson@company.co.uk",
+    "subject": "warranty",
+    "message": "My electric hammer purchased 6 months ago has developed a screen flickering issue and I would like to claim warranty service for repair or replacement.",
+    "status": 200
+  },
+  {
+    "name": "Emily Johnson",
+    "email": "emily.johnson@company.co.uk",
+    "subject": "warranty",
+    "message": "My electric hammer purchased 6 months ago has developed a screen flickering issue and I would like to claim warranty service for repair or replacement.",
+    "status": 200,
+    "gender": "female"
+  }
+]

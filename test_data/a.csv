@@ -1,0 +1,396 @@
+Feature ID,Test case ID,Precondition,Test Description,Test Steps,Expected Result,Actual Result,Status,Tester,Tested Date,Remark
+Feature 01: Send new contact message,,,,,,,,,,
+UC01,TC01,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify successful message submission with valid data for customer-service subject","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""John Doe"",
+  ""email"": ""john@doe.example"",
+  ""subject"": ""customer-service"",
+  ""message"": ""I need help with my account settings and cannot access my profile information properly.""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Domain Testing - Valid customer-service subject
+UC01,TC02,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify successful message submission with valid data for webmaster subject","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Jane Smith"",
+  ""email"": ""jane@smith.example"",
+  ""subject"": ""webmaster"",
+  ""message"": ""The website is loading very slowly and some images are not displaying correctly on the homepage.""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Domain Testing - Valid webmaster subject
+UC01,TC03,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify successful message submission with valid data for return subject","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Mike Johnson"",
+  ""email"": ""mike@johnson.example"",
+  ""subject"": ""return"",
+  ""message"": ""I would like to return my recent purchase as it does not meet my expectations and requirements.""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Domain Testing - Valid return subject
+UC01,TC04,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify successful message submission with valid data for not-found subject","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Sarah Wilson"",
+  ""email"": ""sarah@wilson.example"",
+  ""subject"": ""not-found"",
+  ""message"": ""I cannot find the product I was looking for in your catalog. Could you help me locate it please?""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Domain Testing - Valid not-found subject
+UC01,TC05,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify successful message submission with valid data for payments subject","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""David Brown"",
+  ""email"": ""david@brown.example"",
+  ""subject"": ""payments"",
+  ""message"": ""I am having issues with my payment processing and need assistance with my recent transaction.""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Domain Testing - Valid payments subject
+UC01,TC06,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify successful message submission with valid data for warranty subject","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Lisa Garcia"",
+  ""email"": ""lisa@garcia.example"",
+  ""subject"": ""warranty"",
+  ""message"": ""My product is still under warranty but has stopped working. I need information about repair options.""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Domain Testing - Valid warranty subject
+UC01,TC07,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify successful message submission with valid data for status-of-order subject","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Robert Taylor"",
+  ""email"": ""robert@taylor.example"",
+  ""subject"": ""status-of-order"",
+  ""message"": ""I placed an order last week and would like to check the current status and delivery information.""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Domain Testing - Valid status-of-order subject
+UC01,TC08,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify successful message submission with Vietnamese unicode characters in name","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Nguyễn Văn Anh"",
+  ""email"": ""nguyen@van.example"",
+  ""subject"": ""customer-service"",
+  ""message"": ""Tôi cần hỗ trợ về tài khoản của mình và không thể truy cập thông tin hồ sơ một cách chính xác.""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields with correct unicode
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Domain Testing - Unicode support validation
+UC01,TC09,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify message submission with maximum valid name length (120 characters)","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""AbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmn"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with exactly fifty characters here to meet minimum length requirement for message validation.""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Boundary Testing - Maximum name length
+UC01,TC10,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify message submission with minimum valid message length (50 characters)","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is exactly fifty characters long message test""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Boundary Testing - Minimum message length
+UC01,TC11,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify message submission with maximum valid message length (250 characters)","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a very long message that contains exactly two hundred and fifty characters to test the maximum boundary limit for message field validation in the API endpoint which should accept this length properly and return success""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Boundary Testing - Maximum message length
+UC01,TC12,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify message submission with maximum valid email length (120 characters)","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""verylongemailaddressfortestingmaximumlengthboundaryvalidationintheapimessageendpointwhichshouldwork@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message to verify email length boundary validation works properly in the API.""
+}
+3. Send request","1. Status code: 200
+2. Response contains all submitted fields
+3. Response includes generated id and timestamp
+4. Message is successfully stored",,,,Boundary Testing - Maximum email length
+UC01,TC13,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with empty name field","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": """",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with empty name field to verify validation.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating name field is required
+3. Message is not stored",,,,Negative Testing - Empty name validation
+UC01,TC14,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with empty email field","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": """",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with empty email field to verify validation.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating email field is required
+3. Message is not stored",,,,Negative Testing - Empty email validation
+UC01,TC15,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with empty subject field","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""test@example.com"",
+  ""subject"": """",
+  ""message"": ""This is a test message with empty subject field to verify validation.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating subject field is required
+3. Message is not stored",,,,Negative Testing - Empty subject validation
+UC01,TC16,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with empty message field","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": """"
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating message field is required
+3. Message is not stored",,,,Negative Testing - Empty message validation
+UC01,TC17,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with name exceeding maximum length","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""AbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopq"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with name field exceeding maximum length limit.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating name field exceeds maximum length
+3. Message is not stored",,,,Negative Testing - Name length validation
+UC01,TC18,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with email exceeding maximum length","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""verylongemailaddressfortestingmaximumlengthboundaryvalidationintheapimessageendpointwhichshouldnotwork@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with email field exceeding maximum length limit.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating email field exceeds maximum length
+3. Message is not stored",,,,Negative Testing - Email length validation
+UC01,TC19,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with message field below minimum length","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""Short message""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating message field below minimum length
+3. Message is not stored",,,,Negative Testing - Message minimum length
+UC01,TC20,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with message field exceeding maximum length","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a very long message that contains more than two hundred and fifty characters to test the maximum boundary limit for message field validation in the API endpoint which should reject this length and return error response for validation""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating message field exceeds maximum length
+3. Message is not stored",,,,Negative Testing - Message maximum length
+UC01,TC21,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with invalid email format","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""invalid-email-format"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with invalid email format to verify validation.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating invalid email format
+3. Message is not stored",,,,Negative Testing - Email format validation
+UC01,TC22,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with email containing invalid special characters","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""test#user$@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with email containing invalid special characters.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating invalid email format
+3. Message is not stored",,,,Negative Testing - Email special characters
+UC01,TC23,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with name starting with number","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""123John Doe"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with name starting with number to verify validation.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating invalid name format
+3. Message is not stored",,,,Negative Testing - Name format validation
+UC01,TC24,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with name starting with special character","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""#John Doe"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with name starting with special character.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating invalid name format
+3. Message is not stored",,,,Negative Testing - Name special character validation
+UC01,TC25,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with name having leading spaces","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""  John Doe"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with name having leading spaces to verify validation.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating invalid name format
+3. Message is not stored",,,,Negative Testing - Name leading spaces
+UC01,TC26,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with name having trailing spaces","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""John Doe  "",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is a test message with name having trailing spaces to verify validation.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating invalid name format
+3. Message is not stored",,,,Negative Testing - Name trailing spaces
+UC01,TC27,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with invalid subject value","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""invalid-subject"",
+  ""message"": ""This is a test message with invalid subject value to verify validation.""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating invalid subject value
+3. Message is not stored",,,,Negative Testing - Invalid subject validation
+UC01,TC28,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of message with message containing only numbers","1. Select POST /messages request in API client
+2. Set request body:
+{
+  ""name"": ""Test User"",
+  ""email"": ""test@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""1234567890123456789012345678901234567890123456789012""
+}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating message must contain letters
+3. Message is not stored",,,,Negative Testing - Message letters requirement
+UC01,TC29,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of completely empty request body","1. Select POST /messages request in API client
+2. Set request body: {}
+3. Send request","1. Status code: 400 or 422
+2. Error response indicating required fields are missing
+3. Message is not stored",,,,Negative Testing - Empty request body
+UC01,TC30,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify rejection of malformed JSON request","1. Select POST /messages request in API client
+2. Set request body: {""name"": ""Test"", ""email"": ""test@example.com"", ""subject"": ""customer-service"", ""message"": ""This is a test""
+3. Send request","1. Status code: 400
+2. Error response indicating malformed JSON
+3. Message is not stored",,,,Negative Testing - Malformed JSON
+UC01,TC31,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify successful state transition from empty to populated message store","1. Verify message store is initially empty
+2. Select POST /messages request in API client
+3. Set request body:
+{
+  ""name"": ""First User"",
+  ""email"": ""first@example.com"",
+  ""subject"": ""customer-service"",
+  ""message"": ""This is the first message to test state transition from empty store.""
+}
+4. Send request","1. Status code: 200
+2. Response contains id: 1 (first message)
+3. Message store transitions from empty to containing one message
+4. Subsequent messages should have incremented IDs",,,,State Transition Testing - Empty to populated
+UC01,TC32,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.
+3. Message store contains existing messages","Verify successful state transition for multiple message submissions","1. Select POST /messages request in API client
+2. Send first message with webmaster subject
+3. Send second message with payments subject
+4. Send third message with warranty subject
+5. Verify each submission","1. Each message gets unique incremental ID
+2. All messages are stored successfully
+3. Status code: 200 for each request
+4. State properly maintained across multiple submissions",,,,State Transition Testing - Multiple submissions
+UC01,TC33,"1. Endpoint: http://localhost:8091/messages is active.
+2. Valid authentication token is available.","Verify system handles concurrent message submissions","1. Prepare multiple API clients
+2. Send simultaneous POST /messages requests with different subjects:
+   - Client 1: customer-service subject
+   - Client 2: return subject
+   - Client 3: status-of-order subject
+3. Verify responses","1. All requests return status code: 200
+2. Each message gets unique ID
+3. No data corruption occurs
+4. All messages are properly stored",,,,State Transition Testing - Concurrent operations

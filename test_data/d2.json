@@ -1,0 +1,183 @@
+[
+  {
+    "product_id": "5",
+    "status": 201
+  },
+  {
+    "product_id": "10",
+    "status": 201
+  },
+  {
+    "product_id": "15",
+    "status": 201
+  },
+  {
+    "product_id": "20",
+    "status": 201
+  },
+  {
+    "product_id": "25",
+    "status": 201
+  },
+  {
+    "product_id": "29",
+    "status": 201
+  },
+  {
+    "product_id": "1",
+    "status": 201
+  },
+  {
+    "product_id": "0",
+    "status": 422
+  },
+  {
+    "product_id": "30",
+    "status": 422
+  },
+  {
+    "product_id": "-1",
+    "status": 422
+  },
+  {
+    "product_id": "-999",
+    "status": 422
+  },
+  {
+    "product_id": "abc",
+    "status": 422
+  },
+  {
+    "product_id": "null",
+    "status": 422
+  },
+  {
+    "product_id": "",
+    "status": 422
+  },
+  {
+    "product_id": "true",
+    "status": 422
+  },
+  {
+    "product_id": "5.5",
+    "status": 422
+  },
+  {
+    "product_id": "",
+    "status": 422
+  },
+  {
+    "product_id": "12",
+    "status": 409
+  },
+  {
+    "product_id": "2",
+    "status": 201
+  },
+  {
+    "product_id": "3",
+    "status": 201
+  },
+  {
+    "product_id": "4",
+    "status": 201
+  },
+  {
+    "product_id": "6",
+    "status": 201
+  },
+  {
+    "product_id": "7",
+    "status": 201
+  },
+  {
+    "product_id": "8",
+    "status": 201
+  },
+  {
+    "product_id": "9",
+    "status": 201
+  },
+  {
+    "product_id": "11",
+    "status": 201
+  },
+  {
+    "product_id": "12",
+    "status": 201
+  },
+  {
+    "product_id": "13",
+    "status": 201
+  },
+  {
+    "product_id": "14",
+    "status": 201
+  },
+  {
+    "product_id": "16",
+    "status": 201
+  },
+  {
+    "product_id": "17",
+    "status": 201
+  },
+  {
+    "product_id": "18",
+    "status": 201
+  },
+  {
+    "product_id": "19",
+    "status": 201
+  },
+  {
+    "product_id": "21",
+    "status": 201
+  },
+  {
+    "product_id": "22",
+    "status": 201
+  },
+  {
+    "product_id": "23",
+    "status": 201
+  },
+  {
+    "product_id": "24",
+    "status": 201
+  },
+  {
+    "product_id": "26",
+    "status": 201
+  },
+  {
+    "product_id": "27",
+    "status": 201
+  },
+  {
+    "product_id": "28",
+    "status": 201
+  },
+  {
+    "product_id": "999999",
+    "status": 422
+  },
+  {
+    "product_id": "[7]",
+    "status": 422
+  },
+  {
+    "product_id": "{\"id\": 7}",
+    "status": 422
+  },
+  {
+    "product_id": "7",
+    "extra_field": "value",
+    "status": 200
+  },
+  {
+    "product_id": "0",
+    "status": 422
+  }
+]

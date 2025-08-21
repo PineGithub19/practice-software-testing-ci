@@ -42,7 +42,8 @@ jobs:
       - name: Run Postman API Testing Messages
         run: |
           newman run postman/API_Testing_Messages.json \
-            --environment postman/API_Testing_env.json \
+            --e postman/API_Testing_env.json \
+            --data postman/d1.json \
             --reporters cli,json,html \
             --reporter-json-export newman/messages_report.json \
             --reporter-html-export newman/messages_report.html
@@ -50,7 +51,8 @@ jobs:
       - name: Run Postman API Testing Favorites
         run: |
           newman run postman/API_Testing_Favorites.json \
-            --environment postman/API_Testing_env.json \
+            --e postman/API_Testing_env.json \
+            --data postman/d2.json \
             --reporters cli,json,html \
             --reporter-json-export newman/favorites_report.json \
             --reporter-html-export newman/favorites_report.html
@@ -58,7 +60,8 @@ jobs:
       - name: Run Postman API Testing Payment
         run: |
           newman run postman/API_Testing_Payment.json \
-            --environment postman/API_Testing_env.json \
+            --e postman/API_Testing_env.json \
+            --data postman/d3.json \
             --reporters cli,json,html \
             --reporter-json-export newman/payment_report.json \
             --reporter-html-export newman/payment_report.html

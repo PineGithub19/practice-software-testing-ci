@@ -43,7 +43,7 @@ jobs:
         run: |
           newman run postman/API_Testing_Messages.json \
             -e postman/API_Testing_env.json \
-            -d postman/d1.json \
+            -d test_data/d1.json \
             -r cli,json,html \
             --reporter-json-export newman/messages_report.json \
             --reporter-html-export newman/messages_report.html
@@ -52,7 +52,7 @@ jobs:
         run: |
           newman run postman/API_Testing_Favorites.json \
             -e postman/API_Testing_env.json \
-            -d postman/d2.json \
+            -d test_data/d2.json \
             -r cli,json,html \
             --reporter-json-export newman/favorites_report.json \
             --reporter-html-export newman/favorites_report.html
@@ -61,7 +61,7 @@ jobs:
         run: |
           newman run postman/API_Testing_Payment.json \
             -e postman/API_Testing_env.json \
-            -d postman/d3.json \
+            -d test_data/d3.json \
             -r cli,json,html \
             --reporter-json-export newman/payment_report.json \
             --reporter-html-export newman/payment_report.html

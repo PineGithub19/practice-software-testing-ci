@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "4bff6c24-f15b-42d9-82ff-d223f0b38e52",
+		"name": "API Testing Favorites",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33491043"
+	},
+	"item": [
+		{
+			"name": "/favorites",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is valid (201 or 422)\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 422]);\r",
+							"});\r",
+							"\r",
+							"// Nếu thành công (201)\r",
+							"if (pm.response.code === 201) {\r",
+							"    let jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.test(\"Response contains product_id\", function () {\r",
+							"        pm.expect(jsonData).to.have.property(\"product_id\");\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"Response contains user_id\", function () {\r",
+							"        pm.expect(jsonData).to.have.property(\"user_id\");\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"Response contains favorite id\", function () {\r",
+							"        pm.expect(jsonData).to.have.property(\"id\");\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"Favorite stored successfully\", function () {\r",
+							"        pm.expect(jsonData.id).to.not.be.null;\r",
+							"    });\r",
+							"}\r",
+							"\r",
+							"// Nếu lỗi (422)\r",
+							"if (pm.response.code === 422) {\r",
+							"    let jsonData = pm.response.json();\r",
+							"\r",
+							"    // Trường hợp product_id invalid\r",
+							"    if (jsonData.product_id && jsonData.product_id[0] === \"The selected product id is invalid.\") {\r",
+							"        pm.test(\"Invalid product_id message shown\", function () {\r",
+							"            pm.expect(jsonData.product_id[0]).to.eql(\"The selected product id is invalid.\");\r",
+							"        });\r",
+							"    }\r",
+							"\r",
+							"    // Trường hợp product_id null\r",
+							"    if (jsonData.product_id && jsonData.product_id[0] === \"The product id field is required.\") {\r",
+							"        pm.test(\"Null product_id message shown\", function () {\r",
+							"            pm.expect(jsonData.product_id[0]).to.eql(\"The product id field is required.\");\r",
+							"        });\r",
+							"    }\r",
+							"\r",
+							"    // Trường hợp product_id trùng\r",
+							"    if (jsonData.message && jsonData.message === \"Duplicate Entry\") {\r",
+							"        pm.test(\"Duplicate entry error shown\", function () {\r",
+							"            pm.expect(jsonData.message).to.eql(\"Duplicate Entry\");\r",
+							"        });\r",
+							"    }\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n    \"product_id\": {{product_id}}\r\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/favorites",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"favorites"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8091",
+			"type": "default"
+		}
+	]
+}

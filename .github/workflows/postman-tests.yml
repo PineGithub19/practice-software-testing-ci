@@ -1,0 +1,58 @@
+name: Run Postman Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  postman:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      # 3. Install Newman
+      - name: Install Newman
+        run: npm install -g newman
+
+      # 4. Run collection
+      - name: Run Postman API Testing Messages
+        run: |
+          newman run postman/API_Testing_Messages.json \
+            --environment postman/API_Testing_env.json \
+            --reporters cli,json \
+            --reporter-json-export newman/messages_report.json \
+            --reporter-html-export newman/messages_report.html
+
+      - name: Run Postman API Testing Favorites
+        run: |
+          newman run postman/API_Testing_Favorites.json \
+            --environment postman/API_Testing_env.json \
+            --reporters cli,json \
+            --reporter-json-export newman/favorites_report.json \
+            --reporter-html-export newman/favorites_report.html
+
+      - name: Run Postman API Testing Payment
+        run: |
+          newman run postman/API_Testing_Payment.json \
+            --environment postman/API_Testing_env.json \
+            --reporters cli,json \
+            --reporter-json-export newman/payment_report.json \
+            --reporter-html-export newman/payment_report.html
+
+      # 5. Upload test report
+      - name: Upload Newman Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman-report
+          path: newman/

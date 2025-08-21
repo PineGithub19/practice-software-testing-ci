@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "e40e7d91-ad99-4d2d-8f83-c28b23f316af",
+		"name": "API Testing Payment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33491043"
+	},
+	"item": [
+		{
+			"name": "/payment/check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Lấy status code\r",
+							"pm.test(\"Status code is valid\", function () {\r",
+							"    pm.expect([200, 400]).to.include(pm.response.code);\r",
+							"});\r",
+							"\r",
+							"// Parse JSON response (nếu hợp lệ)\r",
+							"let jsonData;\r",
+							"try {\r",
+							"    jsonData = pm.response.json();\r",
+							"} catch (e) {\r",
+							"    jsonData = null;\r",
+							"}\r",
+							"\r",
+							"// Case 1: Payment thành công\r",
+							"if (pm.response.code === 200) {\r",
+							"    pm.test(\"Response contains success message\", function () {\r",
+							"        pm.expect(jsonData).to.have.property(\"message\");\r",
+							"        pm.expect(jsonData.message).to.eql(\"Payment was successful\");\r",
+							"    });\r",
+							"}\r",
+							"\r",
+							"// Case 2: Lỗi do method rỗng\r",
+							"if (pm.response.code === 400) {\r",
+							"    pm.test(\"Response contains error message about blank method\", function () {\r",
+							"        pm.expect(jsonData).to.have.property(\"error\");\r",
+							"        pm.expect(jsonData.error.toLowerCase()).to.include(\"method\");\r",
+							"    });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwOTEvdXNlcnMvbG9naW4iLCJpYXQiOjE3NTU1OTgwNzksImV4cCI6MTc3MTE5ODA3OSwibmJmIjoxNzU1NTk4MDc5LCJqdGkiOiJqTDZ2U3d1TmxaTU9rcXlUIiwic3ViIjoiMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJyb2xlIjoidXNlciJ9.CTcnBUuV1ox24n5Fl4IIuoQ8d2Z6ux4_rHdHv58I3K8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"method\": \"{{method}}\",\r\n  \"account_name\": \"{{account_name}}\",\r\n  \"account_number\": \"{{account_number}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/payment/check",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"payment",
+						"check"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8091",
+			"type": "default"
+		}
+	]
+}

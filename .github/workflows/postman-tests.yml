@@ -13,44 +13,54 @@ jobs:
     steps:
       # 1. Checkout code
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2. Setup Node.js
+      # 2. Setup Node.js (for Newman)
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: 18
 
-      # 3. Install Newman
+      # 3. Install Newman + wait-on
       - name: Install Newman
-        run: npm install -g newman
+        run: npm install -g newman wait-on
 
-      # 4. Run collection
+      # 4. Start backend with Docker Compose
+      - name: Start backend with Docker
+        run: docker-compose -f docker-compose.yml up -d
+        env:
+          SPRINT_FOLDER: sprint5-with-bugs
+
+      # 5. Wait until backend is ready
+      - name: Wait for backend
+        run: npx wait-on http://localhost:8091
+
+      # 6. Run Postman collections
       - name: Run Postman API Testing Messages
         run: |
-          newman run postman/API_Testing_Messages.json \
-            --environment postman/API_Testing_env.json \
-            --reporters cli,json \
+          newman run src/postman/API_Testing_Messages.json \
+            --environment src/postman/API_Testing_env.json \
+            --reporters cli,json,html \
             --reporter-json-export newman/messages_report.json \
             --reporter-html-export newman/messages_report.html
 
       - name: Run Postman API Testing Favorites
         run: |
-          newman run postman/API_Testing_Favorites.json \
-            --environment postman/API_Testing_env.json \
-            --reporters cli,json \
+          newman run src/postman/API_Testing_Favorites.json \
+            --environment src/postman/API_Testing_env.json \
+            --reporters cli,json,html \
             --reporter-json-export newman/favorites_report.json \
             --reporter-html-export newman/favorites_report.html
 
       - name: Run Postman API Testing Payment
         run: |
-          newman run postman/API_Testing_Payment.json \
-            --environment postman/API_Testing_env.json \
-            --reporters cli,json \
+          newman run src/postman/API_Testing_Payment.json \
+            --environment src/postman/API_Testing_env.json \
+            --reporters cli,json,html \
             --reporter-json-export newman/payment_report.json \
             --reporter-html-export newman/payment_report.html
 
-      # 5. Upload test report
+      # 7. Upload test report
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:

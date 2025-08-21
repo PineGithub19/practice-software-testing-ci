@@ -26,8 +26,11 @@ jobs:
         run: npm install -g newman wait-on
 
       # 4. Start backend with Docker Compose
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
       - name: Start backend with Docker
-        run: docker-compose -f docker-compose.yml up -d
+        run: docker compose -f docker-compose.yml up -d
         env:
           SPRINT_FOLDER: sprint5-with-bugs
 

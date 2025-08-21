@@ -41,24 +41,24 @@ jobs:
       # 6. Run Postman collections
       - name: Run Postman API Testing Messages
         run: |
-          newman run src/postman/API_Testing_Messages.json \
-            --environment src/postman/API_Testing_env.json \
+          newman run postman/API_Testing_Messages.json \
+            --environment postman/API_Testing_env.json \
             --reporters cli,json,html \
             --reporter-json-export newman/messages_report.json \
             --reporter-html-export newman/messages_report.html
 
       - name: Run Postman API Testing Favorites
         run: |
-          newman run src/postman/API_Testing_Favorites.json \
-            --environment src/postman/API_Testing_env.json \
+          newman run postman/API_Testing_Favorites.json \
+            --environment postman/API_Testing_env.json \
             --reporters cli,json,html \
             --reporter-json-export newman/favorites_report.json \
             --reporter-html-export newman/favorites_report.html
 
       - name: Run Postman API Testing Payment
         run: |
-          newman run src/postman/API_Testing_Payment.json \
-            --environment src/postman/API_Testing_env.json \
+          newman run postman/API_Testing_Payment.json \
+            --environment postman/API_Testing_env.json \
             --reporters cli,json,html \
             --reporter-json-export newman/payment_report.json \
             --reporter-html-export newman/payment_report.html

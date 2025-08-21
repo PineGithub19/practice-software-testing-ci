@@ -43,7 +43,10 @@ jobs:
 
       # 6. Install PHP dependencies inside container
       - name: Install PHP dependencies
-        run: docker compose exec -T laravel-api composer install --no-interaction --no-progress --no-suggest
+        run: |
+          docker run --rm \
+            -v $(pwd)/sprint5-with-bugs:/app \
+            composer install --no-interaction --no-progress --no-suggest
 
       # 7. Create Newman folder
       - name: Create Newman report folder

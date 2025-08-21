@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout code
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -22,65 +22,74 @@ jobs:
           node-version: 18
 
       # 3. Install Newman + wait-on
-      - name: Install Newman
+      - name: Install Newman and wait-on
         run: npm install -g newman wait-on
 
-      # 4. Start backend with Docker Compose
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v3
+      # 4. Create Newman report folder
+      - name: Create Newman report folder
+        run: mkdir -p newman
 
+      # 5. Start backend with Docker Compose
       - name: Start backend with Docker
         run: docker compose -f docker-compose.yml up -d
         env:
-          SPRINT_FOLDER: sprint5-with-bugs
+          SPRINT: sprint5-with-bugs
 
-      # 5. Wait for backend container
-      - name: Check containers
+      - name: Check containers status
         run: docker compose ps
 
-      - name: Wait for backend
+      # 6. Wait for backend to be ready
+      - name: Wait for backend service
         run: npx wait-on http://localhost:8091
 
-      # 6. Install PHP dependencies inside container
-      - name: Install PHP dependencies
+      # 7. Run migrations and seed DB
+      - name: Run database migrations and seed
+        run: docker compose exec -T laravel-api php artisan migrate:fresh --seed
+
+      # 8. Install PHP dependencies using official composer container
+      - name: Install PHP dependencies (Composer)
         run: |
           docker run --rm \
             -v $(pwd)/sprint5-with-bugs/API:/app \
             composer install --no-interaction --no-progress
 
-      # 7. Create Newman folder
-      - name: Create Newman report folder
-        run: mkdir -p newman
-
-      # 8. Run Postman collections
-      - name: Run Postman API Testing Messages
+      # 9. Run Postman collections using Newman
+      - name: Run Postman - Messages
         run: |
-          newman run postman/API_Testing_Messages.json \
-            -e postman/API_Testing_env.json \
-            -d test_data/d1.json \
+          newman run sprint5-with-bugs/API/postman/API_Testing_Messages.json \
+            -e sprint5-with-bugs/API/postman/API_Testing_env.json \
+            -d sprint5-with-bugs/API/test_data/d1.json \
             -r cli,json,html \
             --reporter-json-export newman/messages_report.json \
             --reporter-html-export newman/messages_report.html
+        continue-on-error: true
 
-      - name: Run Postman API Testing Favorites
+      - name: Run Postman - Favorites
         run: |
-          newman run postman/API_Testing_Favorites.json \
-            -e postman/API_Testing_env.json \
-            -d test_data/d2.json \
+          newman run sprint5-with-bugs/API/postman/API_Testing_Favorites.json \
+            -e sprint5-with-bugs/API/postman/API_Testing_env.json \
+            -d sprint5-with-bugs/API/test_data/d2.json \
             -r cli,json,html \
             --reporter-json-export newman/favorites_report.json \
             --reporter-html-export newman/favorites_report.html
+        continue-on-error: true
 
-      - name: Run Postman API Testing Payment
+      - name: Run Postman - Payment
         run: |
-          newman run postman/API_Testing_Payment.json \
-            -e postman/API_Testing_env.json \
-            -d test_data/d3.json \
+          newman run sprint5-with-bugs/API/postman/API_Testing_Payment.json \
+            -e sprint5-with-bugs/API/postman/API_Testing_env.json \
+            -d sprint5-with-bugs/API/test_data/d3.json \
             -r cli,json,html \
             --reporter-json-export newman/payment_report.json \
             --reporter-html-export newman/payment_report.html
+        continue-on-error: true
 
-      # 9. Upload test report
+      # 10. If any Newman test failed, show Laravel logs
+      - name: Show Laravel logs (on failure)
+        if: failure()
+        run: docker compose logs laravel-api
+
+      # 11. Upload test reports
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:

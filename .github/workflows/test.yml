@@ -26,13 +26,18 @@ jobs:
           docker compose -f docker-compose.yml up -d --build
           docker compose ps | cat
 
-      - name: Install Composer dependencies
+      - name: Install Composer dependencies (robust)
         env:
           SPRINT_FOLDER: sprint5-with-bugs
         run: |
+          mkdir -p "${{ github.workspace }}/.composer-cache"
           docker run --rm \
+            -e COMPOSER_ALLOW_SUPERUSER=1 \
+            -e COMPOSER_CACHE_DIR=/tmp/composer-cache \
+            -v "${{ github.workspace }}/.composer-cache:/tmp/composer-cache" \
             -v "${{ github.workspace }}/sprint5-with-bugs/API:/app" \
-            composer:2.6.6 install --no-interaction --no-progress --prefer-dist
+            -w /app \
+            composer:2.6.6 sh -lc 'composer clear-cache || true; composer install --no-interaction --no-progress --prefer-source --ignore-platform-req=ext-ffi'
 
       - name: Install Node.js
         uses: actions/setup-node@v4

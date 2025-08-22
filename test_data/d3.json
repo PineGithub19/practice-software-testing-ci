@@ -36,12 +36,6 @@
     "status": 200
   },
   {
-    "method": "Bank Transfer",
-    "account_name": "John Doe Smith Johnson Williams Brown Davis Miller Wilson Moore Taylor Anderson Thomas Jackson White Harris Martin Thompson Garcia Martinez Robinson Clark Rodriguez Lewis Lee Walker Hall Allen Young",
-    "account_number": "9876543",
-    "status": 200
-  },
-  {
     "method": "",
     "account_name": "John Doe",
     "account_number": "9876543",

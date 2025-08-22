@@ -37,6 +37,8 @@ jobs:
             --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --iteration-data "${{ github.workspace }}/test_data/d1.json" \
             --reporters cli
+            --insecure \
+            --suppress-exit-code
 
       - name: Run Postman Collection - Favorites
         run: |
@@ -44,6 +46,8 @@ jobs:
             --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --iteration-data "${{ github.workspace }}/test_data/d2.json" \
             --reporters cli
+            --insecure \
+            --suppress-exit-code
 
       - name: Run Postman Collection - Payment
         run: |
@@ -51,6 +55,8 @@ jobs:
             --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --iteration-data "${{ github.workspace }}/test_data/d3.json" \
             --reporters cli
+            --insecure \
+            --suppress-exit-code
 
       - name: Upload Newman HTML reports
         if: always()

@@ -1,105 +1,99 @@
 {
-	"info": {
-		"_postman_id": "2a768549-c172-4cb0-9747-cf35309c8c9c",
-		"name": "API Testing Messages",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33491043"
-	},
-	"item": [
-		{
-			"name": "/messages",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200 or 422\", function () {\r",
-							"    pm.expect([200, 422]).to.include(pm.response.code);\r",
-							"});\r",
-							"\r",
-							"let jsonData;\r",
-							"try {\r",
-							"    jsonData = pm.response.json();\r",
-							"} catch (e) {\r",
-							"    jsonData = {};\r",
-							"    console.warn(\"Response is not valid JSON:\", pm.response.text());\r",
-							"}\r",
-							"\r",
-							"// Nếu status code = 200 → kiểm tra response hợp lệ\r",
-							"if (pm.response.code === 200) {\r",
-							"    pm.test(\"Response contains submitted fields\", function () {\r",
-							"        pm.expect(jsonData).to.have.property(\"name\", pm.iterationData.get(\"name\"));\r",
-							"        pm.expect(jsonData).to.have.property(\"email\", pm.iterationData.get(\"email\"));\r",
-							"        pm.expect(jsonData).to.have.property(\"subject\", pm.iterationData.get(\"subject\"));\r",
-							"        pm.expect(jsonData).to.have.property(\"message\", pm.iterationData.get(\"message\"));\r",
-							"    });\r",
-							"\r",
-							"    pm.test(\"Response includes generated id and timestamp\", function () {\r",
-							"        pm.expect(jsonData).to.have.property(\"id\");\r",
-							"        pm.expect(jsonData.id).to.be.a(\"number\");\r",
-							"        pm.expect(jsonData).to.have.property(\"created_at\");\r",
-							"    });\r",
-							"}\r",
-							"\r",
-							"// Nếu status code = 422 → kiểm tra lỗi validate\r",
-							"else if (pm.response.code === 422) {\r",
-							"    pm.test(\"Error response structure is correct\", function () {\r",
-							"        pm.expect(jsonData).to.have.property(\"errors\");\r",
-							"        pm.expect(jsonData.errors).to.be.an(\"object\");\r",
-							"    });\r",
-							"\r",
-							"    pm.test(\"Error response indicates 'subject' field is required\", function () {\r",
-							"        pm.expect(jsonData.errors).to.have.property(\"subject\");\r",
-							"        pm.expect(jsonData.errors.subject[0]).to.include(\"required\");\r",
-							"    });\r",
-							"}\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"subject\": \"{{subject}}\",\r\n  \"message\": \"{{message}}\"\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseURL}}/messages",
-					"host": [
-						"{{baseURL}}"
-					],
-					"path": [
-						"messages"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"variable": [
-		{
-			"key": "baseURL",
-			"value": "http://localhost:8091",
-			"type": "default"
-		}
-	]
+  "info": {
+    "_postman_id": "2a768549-c172-4cb0-9747-cf35309c8c9c",
+    "name": "API Testing Messages",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33491043"
+  },
+  "item": [
+    {
+      "name": "/messages",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [""],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 422\", function () {\r",
+              "    pm.expect([200, 422]).to.include(pm.response.code);\r",
+              "});\r",
+              "\r",
+              "let jsonData;\r",
+              "try {\r",
+              "    jsonData = pm.response.json();\r",
+              "} catch (e) {\r",
+              "    jsonData = {};\r",
+              "    console.warn(\"Response is not valid JSON:\", pm.response.text());\r",
+              "}\r",
+              "\r",
+              "// Nếu status code = 200 → kiểm tra response hợp lệ\r",
+              "if (pm.response.code === 200) {\r",
+              "    pm.test(\"Response contains submitted fields\", function () {\r",
+              "        pm.expect(jsonData).to.have.property(\"name\", pm.iterationData.get(\"name\"));\r",
+              "        pm.expect(jsonData).to.have.property(\"email\", pm.iterationData.get(\"email\"));\r",
+              "        pm.expect(jsonData).to.have.property(\"subject\", pm.iterationData.get(\"subject\"));\r",
+              "        pm.expect(jsonData).to.have.property(\"message\", pm.iterationData.get(\"message\"));\r",
+              "    });\r",
+              "\r",
+              "    pm.test(\"Response includes generated id and timestamp\", function () {\r",
+              "        pm.expect(jsonData).to.have.property(\"id\");\r",
+              "        pm.expect(jsonData.id).to.be.a(\"number\");\r",
+              "        pm.expect(jsonData).to.have.property(\"created_at\");\r",
+              "    });\r",
+              "}\r",
+              "\r",
+              "// Nếu status code = 422 → kiểm tra lỗi validate\r",
+              "else if (pm.response.code === 422) {\r",
+              "    pm.test(\"Error response structure is correct\", function () {\r",
+              "        pm.expect(jsonData).to.have.property(\"errors\");\r",
+              "        pm.expect(jsonData.errors).to.be.an(\"object\");\r",
+              "    });\r",
+              "\r",
+              "    pm.test(\"Error response indicates 'subject' field is required\", function () {\r",
+              "        pm.expect(jsonData.errors).to.have.property(\"subject\");\r",
+              "        pm.expect(jsonData.errors.subject[0]).to.include(\"required\");\r",
+              "    });\r",
+              "}\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"subject\": \"{{subject}}\",\r\n  \"message\": \"{{message}}\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/messages",
+          "host": ["{{baseURL}}"],
+          "path": ["messages"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "https://api-with-bugs.practicesoftwaretesting.com",
+      "type": "default"
+    }
+  ]
 }

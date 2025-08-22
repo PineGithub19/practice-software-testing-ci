@@ -36,24 +36,21 @@ jobs:
           newman run "${{ github.workspace }}/postman/API_Testing_Messages.json" \
             --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --iteration-data "${{ github.workspace }}/test_data/d1.json" \
-            --reporters cli,html \
-            --reporter-html-export "${{ github.workspace }}/newman/messages_report.html"
+            --reporters cli
 
       - name: Run Postman Collection - Favorites
         run: |
           newman run "${{ github.workspace }}/postman/API_Testing_Favorites.json" \
             --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --iteration-data "${{ github.workspace }}/test_data/d2.json" \
-            --reporters cli,html \
-            --reporter-html-export "${{ github.workspace }}/newman/favorites_report.html"
+            --reporters cli
 
       - name: Run Postman Collection - Payment
         run: |
           newman run "${{ github.workspace }}/postman/API_Testing_Payment.json" \
             --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --iteration-data "${{ github.workspace }}/test_data/d3.json" \
-            --reporters cli,html \
-            --reporter-html-export "${{ github.workspace }}/newman/payment_report.html"
+            --reporters cli
 
       - name: Upload Newman HTML reports
         if: always()

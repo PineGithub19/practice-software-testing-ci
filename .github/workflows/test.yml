@@ -1,4 +1,4 @@
-name: API Tests (Newman)
+name: API Tests (Newman) - Hosted API
 
 on:
   push:
@@ -15,30 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build & Start services (Docker Compose)
-        env:
-          SPRINT_FOLDER: sprint5-with-bugs
-          DISABLE_LOGGING: "true"
-        run: |
-          docker compose -f docker-compose.yml up -d --build
-          docker compose ps | cat
-
-      - name: Install Composer dependencies (robust)
-        env:
-          SPRINT_FOLDER: sprint5-with-bugs
-        run: |
-          mkdir -p "${{ github.workspace }}/.composer-cache"
-          docker run --rm \
-            -e COMPOSER_ALLOW_SUPERUSER=1 \
-            -e COMPOSER_CACHE_DIR=/tmp/composer-cache \
-            -v "${{ github.workspace }}/.composer-cache:/tmp/composer-cache" \
-            -v "${{ github.workspace }}/sprint5-with-bugs/API:/app" \
-            -w /app \
-            composer:2.6.6 sh -lc 'composer clear-cache || true; composer install --no-interaction --no-progress --prefer-source --ignore-platform-req=ext-ffi'
-
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
@@ -48,13 +24,9 @@ jobs:
         run: |
           npm install -g newman wait-on
 
-      - name: Wait for API to be ready
+      - name: Wait for hosted API to be ready
         run: |
-          npx wait-on http://localhost:8091/status
-
-      - name: Create & Seed database
-        run: |
-          docker compose exec -T laravel-api php artisan migrate:fresh --seed
+          npx wait-on https://api-with-bugs.practicesoftwaretesting.com/status
 
       - name: Prepare Newman reports directory
         run: mkdir -p newman
@@ -83,17 +55,9 @@ jobs:
             --reporters cli,html \
             --reporter-html-export "${{ github.workspace }}/newman/payment_report.html"
 
-      - name: Show Laravel logs on failure
-        if: failure()
-        run: docker compose logs laravel-api | cat
-
       - name: Upload Newman HTML reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: postman-html-reports
           path: newman/*.html
-
-      - name: Tear down containers
-        if: always()
-        run: docker compose down -v

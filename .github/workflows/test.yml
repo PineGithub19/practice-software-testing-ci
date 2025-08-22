@@ -36,7 +36,7 @@ jobs:
           newman run "${{ github.workspace }}/postman/API_Testing_Messages.json" \
             --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --iteration-data "${{ github.workspace }}/test_data/d1.json" \
-            --reporters cli
+            --reporters cli \
             --insecure \
             --suppress-exit-code
 
@@ -45,7 +45,7 @@ jobs:
           newman run "${{ github.workspace }}/postman/API_Testing_Favorites.json" \
             --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --iteration-data "${{ github.workspace }}/test_data/d2.json" \
-            --reporters cli
+            --reporters cli \
             --insecure \
             --suppress-exit-code
 
@@ -54,7 +54,7 @@ jobs:
           newman run "${{ github.workspace }}/postman/API_Testing_Payment.json" \
             --environment "${{ github.workspace }}/postman/API_Testing_env.json" \
             --iteration-data "${{ github.workspace }}/test_data/d3.json" \
-            --reporters cli
+            --reporters cli \
             --insecure \
             --suppress-exit-code
 
